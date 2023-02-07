@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -20,6 +21,7 @@ public class Product implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    @NotNull(message = "Name can not be null")
     private String name;
 
     @Column(nullable = false, length = 1024)
@@ -33,6 +35,8 @@ public class Product implements Serializable {
     private Double price;
 
     // Métodos Construtores
+    public Product(){}
+
     public Product(Long id, String name, double price) {
         this.id = id;
         this.name = name;
@@ -50,9 +54,7 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Product() {
-
-    }
+   
 
     // Métodos
     public String getDescription() {
