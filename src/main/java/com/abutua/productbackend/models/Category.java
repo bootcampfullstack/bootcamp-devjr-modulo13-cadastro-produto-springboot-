@@ -19,7 +19,7 @@ public class Category implements Serializable{
     
     @Column(nullable = false, unique=true)
     private String name;
-
+  
     public Category() {
     }
     

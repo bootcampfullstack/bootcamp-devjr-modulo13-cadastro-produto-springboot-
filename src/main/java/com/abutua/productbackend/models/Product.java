@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -23,9 +20,6 @@ public class Product implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    //@NotNull(message = "Name can not be null")
-    //@NotEmpty(message = "Name can not be empty")
-    @NotBlank(message = "Name can not be blank")
     private String name;
 
     @Column(nullable = false, length = 1024)
