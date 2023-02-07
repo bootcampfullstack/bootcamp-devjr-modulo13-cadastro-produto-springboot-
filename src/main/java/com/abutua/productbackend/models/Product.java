@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -19,12 +20,13 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    //@Column(nullable = false)
+    
     @NotNull(message = "Name can not be null")
+    @Size(min=3, max=255, message = "Name min length = 3 and max length = 255")
     private String name;
 
-    @Column(nullable = false, length = 1024)
+    @NotNull(message = "Description can not be null")
+    @Size(min=3, max=1024, message = "Description min length = 3 and max length = 1024")
     private String description;
 
     @ManyToOne
