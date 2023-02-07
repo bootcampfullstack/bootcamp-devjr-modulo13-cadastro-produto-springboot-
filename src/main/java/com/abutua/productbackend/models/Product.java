@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -19,7 +20,8 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
+    @NotNull(message = "Name can not be null")
     private String name;
 
     @Column(nullable = false, length = 1024)
