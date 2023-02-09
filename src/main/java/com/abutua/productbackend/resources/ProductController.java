@@ -29,7 +29,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> save(@Validated  @RequestBody Product product) {
+    public ResponseEntity<Product> save(@RequestBody Product product) {
         product = productService.save(product);
 
         URI location = ServletUriComponentsBuilder
@@ -59,7 +59,7 @@ public class ProductController {
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateProduct(@PathVariable long id, @RequestBody Product productUpdate) {
+    public ResponseEntity<Void> updateProduct(@PathVariable long id,@RequestBody Product productUpdate) {
         productService.update(id, productUpdate);
         return ResponseEntity.ok().build(); 
     }

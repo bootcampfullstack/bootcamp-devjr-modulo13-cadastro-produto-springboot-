@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="TBL_CATEGORY")
@@ -18,8 +17,7 @@ public class Category implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(unique=true)
-    @NotBlank(message = "Name can not be blank")
+    @Column(nullable = false, unique=true)
     private String name;
   
     public Category() {
@@ -29,8 +27,6 @@ public class Category implements Serializable{
         this.id = id;
         this.name = name;
     }
-
-   
 
     public Integer getId() {
         return id;
