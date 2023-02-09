@@ -29,7 +29,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Product> save(@Validated   @RequestBody Product product) {
+    public ResponseEntity<Product> save(@Validated @RequestBody Product product) {
         product = productService.save(product);
 
         URI location = ServletUriComponentsBuilder
