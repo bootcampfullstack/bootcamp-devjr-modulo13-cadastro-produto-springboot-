@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="TBL_CATEGORY")
@@ -20,13 +18,15 @@ public class Category implements Serializable{
     private Integer id;
     
     @Column(nullable = false, unique=true, length = 255)
-    @NotBlank(message = "Name can not be blank")
-    @Size(min=3, max = 255, message = "Name length min=3 and max=255")
     private String name;
   
     public Category() {
     }
     
+    public Category(String name) {
+        this.name = name; 
+    }
+
     public Category(Integer id, String name) {
         this.id = id;
         this.name = name;
