@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.abutua.productbackend.dao.CategoryDAO;
+
 @Entity
 @Table(name="TBL_CATEGORY")
 public class Category implements Serializable{   
@@ -46,6 +48,10 @@ public class Category implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public  CategoryDAO toDAO() {
+        return new CategoryDAO(id, name);
     }
 
     @Override
