@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.abutua.productbackend.dao.CategoryDAO;
 import com.abutua.productbackend.dao.CategorySaveDAO;
-import com.abutua.productbackend.models.Category;
 import com.abutua.productbackend.services.CategoryService;
 
 @RestController
