@@ -44,13 +44,13 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable int id) {
-        Category category = categoryService.getById(id);
-        return ResponseEntity.ok(category);
+    public ResponseEntity<CategoryDAO> getCategory(@PathVariable int id) {
+        CategoryDAO categoryDAO = categoryService.getDAOById(id);
+        return ResponseEntity.ok(categoryDAO);
     }
 
     @GetMapping  
-    public ResponseEntity<List<Category>> getCategories() { 
+    public ResponseEntity<List<CategoryDAO>> getCategories() { 
         return ResponseEntity.ok(categoryService.getAll());
     }
 
@@ -61,8 +61,8 @@ public class CategoryController {
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateCategory(@PathVariable int id, @RequestBody Category categoryUpdate) {
-        categoryService.update(id, categoryUpdate);
+    public ResponseEntity<Void> updateCategory(@PathVariable int id,@Validated @RequestBody CategorySaveDAO categorySaveDAO) {
+        categoryService.update(id, categorySaveDAO);
         return ResponseEntity.ok().build(); 
     }
 }

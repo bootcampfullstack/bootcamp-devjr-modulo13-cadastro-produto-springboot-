@@ -1,6 +1,8 @@
 package com.abutua.productbackend.services;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,10 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+
+    public CategoryDAO getDAOById(int id) {
+        return getById(id).toDAO();
+    }
   
     public Category getById(int id) {
         Category category = categoryRepository.findById(id)
@@ -27,8 +33,11 @@ public class CategoryService {
         return category;
     }
 
-    public List<Category> getAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDAO> getAll() {
+        return categoryRepository.findAll()
+                                 .stream()
+                                 .map(c -> c.toDAO())
+                                 .collect(Collectors.toList());
     }
 
     public CategoryDAO save(CategorySaveDAO categorySaveDAO) {
@@ -41,9 +50,9 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public void update(int id, Category categoryUpdate) {
+    public void update(int id, CategorySaveDAO categorySaveDAO) {
         Category category = getById(id);
-        category.setName(categoryUpdate.getName());
+        category.setName(categorySaveDAO.getName());
         categoryRepository.save(category);
     }
 
