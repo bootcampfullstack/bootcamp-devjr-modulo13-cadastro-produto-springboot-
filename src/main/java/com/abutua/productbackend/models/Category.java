@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 import com.abutua.productbackend.dao.CategoryDAO;
 
@@ -25,6 +26,10 @@ public class Category implements Serializable{
     public Category() {
     }
     
+    public Category(int id) {
+        this.id = id;
+    }
+
     public Category(String name) {
         this.name = name; 
     }

@@ -9,10 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 
 @Entity
@@ -25,24 +21,18 @@ public class Product implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    @NotBlank(message = "Name can not be blank")
-    @Size(min=3, max = 255, message = "Name length min=3 and max=255")
     private String name;
 
     @Column(nullable = false, length = 1024)
-    @NotBlank(message = "Description can not be blank")
-    @Size(min=3, max = 1024, message = "Description length min=3 and max=")
     private String description;
 
     private boolean promotion;
     
     private boolean newProduct;
     
-    @Min(value=0, message = "Price min value = 0")
     private Double price;
 
     @ManyToOne
-    @Valid
     private Category category;
 
     // Métodos Construtores
