@@ -1,6 +1,7 @@
 package com.abutua.productbackend.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,11 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
+
+    public ProductDAO getDAOById(long id){
+        return getById(id).toDAO();
+    }
+
     public Product getById(long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
@@ -29,8 +35,11 @@ public class ProductService {
         return product;
     }
 
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public List<ProductDAO> getAll() {
+        return productRepository.findAll()
+                                .stream()
+                                .map(p -> p.toDAO())
+                                .collect(Collectors.toList());
     }
 
     public ProductDAO save(ProductSaveDAO productSaveDAO) {
@@ -43,8 +52,9 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public void update(long id, Product productUpdate) {
-        Product product = getById(id);
+    public void update(long id, ProductSaveDAO productSaveDAO) {
+        Product productEntity = getById(id);
+        Product productUpdate = productSaveDAO.toEntity();
 
         if (productUpdate.getCategory() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category can not be empty");
@@ -52,14 +62,14 @@ public class ProductService {
         
         Category category = categoryService.getById(productUpdate.getCategory().getId());
 
-        product.setDescription(productUpdate.getDescription());
-        product.setName(productUpdate.getName());
-        product.setPrice(productUpdate.getPrice());
-        product.setNewProduct(productUpdate.isNewProduct());
-        product.setPromotion(productUpdate.isPromotion());
-        product.setCategory(category);
+        productEntity.setDescription(productUpdate.getDescription());
+        productEntity.setName(productUpdate.getName());
+        productEntity.setPrice(productUpdate.getPrice());
+        productEntity.setNewProduct(productUpdate.isNewProduct());
+        productEntity.setPromotion(productUpdate.isPromotion());
+        productEntity.setCategory(category);
 
-        productRepository.save(product);
+        productRepository.save(productEntity);
     }
 
 }

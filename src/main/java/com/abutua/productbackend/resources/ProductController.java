@@ -44,13 +44,13 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Product product = productService.getById(id);
-        return ResponseEntity.ok(product);
+    public ResponseEntity<ProductDAO> getProduct(@PathVariable long id) {
+        ProductDAO productDAO = productService.getDAOById(id);
+        return ResponseEntity.ok(productDAO);
     }
 
     @GetMapping  
-    public ResponseEntity<List<Product>> getProducts() { 
+    public ResponseEntity<List<ProductDAO>> getProducts() { 
         return ResponseEntity.ok(productService.getAll());
     }
 
@@ -61,8 +61,8 @@ public class ProductController {
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateProduct(@PathVariable long id,@RequestBody Product productUpdate) {
-        productService.update(id, productUpdate);
+    public ResponseEntity<Void> updateProduct(@PathVariable long id,@Validated @RequestBody ProductSaveDAO productSaveDAO) {
+        productService.update(id, productSaveDAO);
         return ResponseEntity.ok().build(); 
     }
     
