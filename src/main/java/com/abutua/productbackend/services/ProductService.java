@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.abutua.productbackend.dao.ProductDAO;
 import com.abutua.productbackend.dao.ProductSaveDAO;
 import com.abutua.productbackend.models.Category;
 import com.abutua.productbackend.models.Product;
@@ -32,8 +33,9 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product save(ProductSaveDAO productSaveDAO) {
-        return productRepository.save(productSaveDAO.toEntity());
+    public ProductDAO save(ProductSaveDAO productSaveDAO) {
+        Product product = productRepository.save(productSaveDAO.toEntity());
+        return product.toDAO();
     }
 
     public void deleteById(long id) {

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.abutua.productbackend.dao.ProductDAO;
+
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -144,6 +146,20 @@ public class Product implements Serializable {
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", description=" + description + ", promotion=" + promotion
                 + ", newProduct=" + newProduct + ", price=" + price + "]";
+    }
+
+    public ProductDAO toDAO() {
+        ProductDAO productDAO = new ProductDAO();
+        
+        productDAO.setId(id);
+        productDAO.setName(name);
+        productDAO.setDescription(description);
+        productDAO.setPrice(price);
+        productDAO.setNewProduct(newProduct);
+        productDAO.setPromotion(promotion);
+        productDAO.setCategory(category.toDAO());
+
+        return productDAO;
     }
 
     
