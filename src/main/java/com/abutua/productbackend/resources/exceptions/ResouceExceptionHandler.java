@@ -14,17 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ResouceExceptionHandler {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StardardError> validationException(MethodArgumentNotValidException exception, HttpServletRequest request){
-
-        StardardError error = new StardardError();
-
-        error.setError("Validation Exception Error");
-        error.setMessage(exception.getMessage());
-        error.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        error.setTimeStamp(Instant.now());
-        error.setPath(request.getRequestURI());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    public ResponseEntity<String> validationException(MethodArgumentNotValidException exception, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation Error");
     }
 
 }
