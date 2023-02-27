@@ -16,7 +16,7 @@ public class ProductSaveDAO {
     private String name;
 
     @NotBlank(message = "Description can not be blank")
-    @Size(min=3, max = 1024, message = "Description length min=3 and max=")
+    @Size(min=3, max = 1024, message = "Description length min=3 and max=1024")
     private String description;
 
     private boolean promotion;

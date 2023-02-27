@@ -3,16 +3,20 @@ package com.abutua.productbackend.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.abutua.productbackend.dao.ProductDAO;
 import com.abutua.productbackend.dao.ProductSaveDAO;
-import com.abutua.productbackend.models.Category;
 import com.abutua.productbackend.models.Product;
 import com.abutua.productbackend.repositories.ProductRepository;
+
 
 @Service
 public class ProductService {
@@ -20,19 +24,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private CategoryService categoryService;
-
-
-    public ProductDAO getDAOById(long id){
-        return getById(id).toDAO();
-    }
-
-    public Product getById(long id) {
+    public ProductDAO getById(long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
-        return product;
+        return product.toDAO();
     }
 
     public List<ProductDAO> getAll() {
@@ -43,33 +39,43 @@ public class ProductService {
     }
 
     public ProductDAO save(ProductSaveDAO productSaveDAO) {
-        Product product = productRepository.save(productSaveDAO.toEntity());
-        return product.toDAO();
+        try {
+            Product product = productRepository.save(productSaveDAO.toEntity());
+            return product.toDAO();    
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityNotFoundException("Category not found");
+        }
     }
 
     public void deleteById(long id) {
-        Product product = getById(id);
-        productRepository.delete(product);
+        try {
+            productRepository.deleteById(id);    
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Product not found");
+        }
     }
 
     public void update(long id, ProductSaveDAO productSaveDAO) {
-        Product productEntity = getById(id);
-        Product productUpdate = productSaveDAO.toEntity();
 
-        if (productUpdate.getCategory() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category can not be empty");
+        try {
+            Product productEntity = productRepository.getReferenceById(id);
+            Product productUpdate = productSaveDAO.toEntity();
+    
+            productEntity.setDescription(productUpdate.getDescription());
+            productEntity.setName(productUpdate.getName());
+            productEntity.setPrice(productUpdate.getPrice());
+            productEntity.setNewProduct(productUpdate.isNewProduct());
+            productEntity.setPromotion(productUpdate.isPromotion());
+            productEntity.setCategory(productUpdate.getCategory());
+    
+            productRepository.save(productEntity);    
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new EntityNotFoundException("Category not found");
         }
         
-        Category category = categoryService.getById(productUpdate.getCategory().getId());
-
-        productEntity.setDescription(productUpdate.getDescription());
-        productEntity.setName(productUpdate.getName());
-        productEntity.setPrice(productUpdate.getPrice());
-        productEntity.setNewProduct(productUpdate.isNewProduct());
-        productEntity.setPromotion(productUpdate.isPromotion());
-        productEntity.setCategory(category);
-
-        productRepository.save(productEntity);
     }
 
 }

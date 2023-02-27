@@ -44,7 +44,7 @@ public class CategoryController {
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryDAO> getCategory(@PathVariable int id) {
-        CategoryDAO categoryDAO = categoryService.getDAOById(id);
+        CategoryDAO categoryDAO = categoryService.getById(id);
         return ResponseEntity.ok(categoryDAO);
     }
 
