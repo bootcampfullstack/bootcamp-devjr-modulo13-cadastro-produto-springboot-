@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.abutua.productbackend.dto.CategoryResponse;
+
+
 @Entity
 @Table(name="TBL_CATEGORY")
 public class Category implements Serializable{   
@@ -20,18 +23,20 @@ public class Category implements Serializable{
     private Integer id;
     
     @Column(nullable = false, unique=true, length = 255)
-    @NotBlank(message = "Name can not be blank")
-    @Size(min=3, max = 255, message = "Name length min=3 and max=255")
     private String name;
   
     public Category() {
     }
     
+    public Category(String name) {
+        this.name = name;
+    }
+
     public Category(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
-
+   
     public Integer getId() {
         return id;
     }
@@ -47,6 +52,11 @@ public class Category implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+
+    public CategoryResponse toDTO(){
+        return new CategoryResponse(id, name);
+    }
+
 
     @Override
     public int hashCode() {
