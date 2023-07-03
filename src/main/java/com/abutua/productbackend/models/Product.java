@@ -14,6 +14,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.abutua.productbackend.dto.ProductResponse;
+
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -154,6 +156,19 @@ public class Product implements Serializable {
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", description=" + description + ", promotion=" + promotion
                 + ", newProduct=" + newProduct + ", price=" + price + "]";
+    }
+
+    public ProductResponse toDTO() {
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setId(id);
+        productResponse.setName(name);
+        productResponse.setDescription(description);
+        productResponse.setPrice(price);
+        productResponse.setNewProduct(newProduct);
+        productResponse.setPromotion(promotion);
+        productResponse.setCategory(category.toDTO());
+
+        return productResponse;
     }
 
     

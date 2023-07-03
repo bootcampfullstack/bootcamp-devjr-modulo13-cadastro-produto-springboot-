@@ -1,5 +1,6 @@
 package com.abutua.productbackend.dto;
 
+
 public class CategoryResponse {
     
     private Integer id;
