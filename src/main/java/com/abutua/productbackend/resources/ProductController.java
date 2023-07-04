@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.abutua.productbackend.dto.ProductRequest;
 import com.abutua.productbackend.dto.ProductResponse;
-import com.abutua.productbackend.models.Product;
 import com.abutua.productbackend.services.ProductService;
 
 @RestController
@@ -44,13 +43,13 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Product product = productService.getById(id);
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable long id) {
+        ProductResponse product = productService.getById(id);
         return ResponseEntity.ok(product);
     }
 
     @GetMapping  
-    public ResponseEntity<List<Product>> getProducts() { 
+    public ResponseEntity<List<ProductResponse>> getProducts() { 
         return ResponseEntity.ok(productService.getAll());
     }
 
@@ -61,7 +60,7 @@ public class ProductController {
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateProduct(@PathVariable long id,@RequestBody Product productUpdate) {
+    public ResponseEntity<Void> updateProduct(@PathVariable long id,@RequestBody ProductRequest productUpdate) {
         productService.update(id, productUpdate);
         return ResponseEntity.ok().build(); 
     }

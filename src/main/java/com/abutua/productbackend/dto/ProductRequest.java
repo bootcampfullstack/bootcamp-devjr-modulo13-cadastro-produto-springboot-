@@ -1,7 +1,9 @@
 package com.abutua.productbackend.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.abutua.productbackend.models.Category;
@@ -24,6 +26,8 @@ public class ProductRequest {
     @Min(value = 0, message = "Price min value = 0")
     private double price;
 
+    @NotNull
+    @Valid
     private IntegerDTO category;
 
     public String getName() {
@@ -82,7 +86,7 @@ public class ProductRequest {
         product.setNewProduct(newProduct);
         product.setPromotion(promotion);
         product.setCategory(new Category(category.getId()));
-        
+
         return product;    }
 
 }
